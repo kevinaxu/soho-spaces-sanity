@@ -9,13 +9,13 @@ export const comparisonType = defineType({
       name: 'before',
       title: 'Before Image',
       type: 'reference',
-      to: [{type: 'media'}],
+      to: [{type: 'photo'}],
     }),
     defineField({
       name: 'after',
       title: 'After Image',
       type: 'reference',
-      to: [{type: 'media'}],
+      to: [{type: 'photo'}],
     }),
   ],
 })

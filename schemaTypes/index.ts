@@ -1,4 +1,5 @@
-import {postType} from './postType'
-import {mediaType} from './mediaType'
 import {comparisonType} from './comparisonType'
-export const schemaTypes = [postType, mediaType, comparisonType]
+import {projectType} from './projectType'
+import {photoType} from './photoType'
+
+export const schemaTypes = [comparisonType, projectType, photoType]

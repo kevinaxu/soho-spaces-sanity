@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
-export const postType = defineType({
-  name: 'post',
-  title: 'Post',
+export const projectType = defineType({
+  name: 'project',
+  title: 'Project',
   type: 'document',
   fields: [
     defineField({
@@ -23,6 +23,19 @@ export const postType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'hero',
+      title: 'Hero',
+      type: 'array',
+      description: 'Hero portfolio at the top of each project',
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'photo'}],
+        },
+      ],
+      validation: (rule) => rule.unique().error('Each photo must be unique'),
+    }),
+    defineField({
       name: 'intro',
       type: 'array',
       of: [{type: 'block'}],
@@ -31,12 +44,14 @@ export const postType = defineType({
       name: 'gallery',
       title: 'Gallery',
       type: 'array',
+      description: 'Photo grid. Use increments of 4',
       of: [
         {
           type: 'reference',
-          to: [{type: 'media'}],
+          to: [{type: 'photo'}],
         },
       ],
+      validation: (rule) => rule.unique().error('Each photo must be unique'),
     }),
     defineField({
       name: 'comparison',
@@ -49,4 +64,10 @@ export const postType = defineType({
       of: [{type: 'block'}],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      media: 'hero.0.image', // use the first hero photo as preview
+    },
+  },
 })
