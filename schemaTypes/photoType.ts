@@ -11,8 +11,8 @@ export const photoType = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'project',
-      title: 'project',
+      name: 'projectCode',
+      title: 'Project Code',
       description: 'Project code associated with this photo',
       type: 'string',
     }),
