@@ -17,6 +17,13 @@ export const photoType = defineType({
       type: 'string',
     }),
     defineField({
+      name: 'project',
+      title: 'Project',
+      type: 'reference',
+      to: [{type: 'project'}],
+      description: 'Optional: associate this photo with a project',
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -31,15 +38,11 @@ export const photoType = defineType({
       ],
     }),
     defineField({
-      name: 'tags',
-      title: 'Tags',
+      name: 'labels',
+      title: 'Labels',
       type: 'array',
+      description: 'Labels used for search / filtering',
       of: [{type: 'string'}],
-    }),
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
     }),
   ],
 })

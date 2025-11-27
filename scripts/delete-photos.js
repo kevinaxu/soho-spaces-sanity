@@ -11,10 +11,9 @@ const client = createClient({
 
 /**
  * Deletes photo documents by optional project code, and their unreferenced image assets.
- */
 async function deletePhotos(projectCode) {
   const query = projectCode
-    ? '*[_type == "photo" && project == $code]{_id, image{asset}}'
+    ? '*[_type == "photo" && projectCode == $code]{_id, image{asset}}'
     : '*[_type == "photo"]{_id, image{asset}}'
 
   const params = projectCode ? {code: projectCode} : {}
@@ -43,9 +42,102 @@ async function deletePhotos(projectCode) {
 
   console.log('Done deleting photos and assets.')
 }
+  async function deletePhotos({ projectCode, projectId }: { projectCode?: string; projectId?: string } = {}) {
+  let query = '*[_type == "photo"'
+  const params: Record<string, any> = {}
+
+  if (projectCode) {
+    query += ' && projectCode == $code'
+    params.code = projectCode
+  }
+
+  if (projectId) {
+    query += ' && project._ref == $projId'
+    params.projId = projectId
+  }
+
+  query += ']{_id, image{asset}}'
+
+  const photos = await client.fetch(query, params)
+
+  console.log(`Found ${photos.length} photos to delete.`)
+
+  for (const photo of photos) {
+    const assetRef = photo.image?.asset?._ref
+    console.log(`Deleting photo document ${photo._id}`)
+
+    // Delete the photo document
+    await client.delete(photo._id)
+
+    if (assetRef) {
+      // Check if the asset is referenced by any other photo
+      const assetInUse = await client.fetch(
+        '*[_type == "photo" && image.asset._ref == $ref]',
+        { ref: assetRef }
+      )
+
+      if (assetInUse.length === 0) {
+        console.log(`Deleting unreferenced asset ${assetRef}`)
+        await client.delete(assetRef)
+      } else {
+        console.log(`Asset ${assetRef} is still referenced elsewhere, skipping deletion.`)
+      }
+    }
+  }
+
+  console.log('Done deleting photos and assets.')
+}
+*/
+
+async function deletePhotos({projectCode, projectId}) {
+  let query = '*[_type == "photo"'
+  const params = {}
+
+  if (projectCode) {
+    query += ' && projectCode == $code'
+    params.code = projectCode
+  }
+
+  if (projectId) {
+    query += ' && project._ref == $projId'
+    params.projId = projectId
+  }
+
+  query += ']{_id, image{asset}}'
+
+  const photos = await client.fetch(query, params)
+
+  console.log(`Found ${photos.length} photos to delete.`)
+
+  for (const photo of photos) {
+    const assetRef = photo.image?.asset?._ref
+    console.log(`Deleting photo document ${photo._id}`)
+
+    // Delete the photo document
+    await client.delete(photo._id)
+
+    if (assetRef) {
+      // Check if the asset is referenced by any other photo
+      const assetInUse = await client.fetch('*[_type == "photo" && image.asset._ref == $ref]', {
+        ref: assetRef,
+      })
+
+      if (assetInUse.length === 0) {
+        console.log(`Deleting unreferenced asset ${assetRef}`)
+        await client.delete(assetRef)
+      } else {
+        console.log(`Asset ${assetRef} is still referenced elsewhere, skipping deletion.`)
+      }
+    }
+  }
+
+  console.log('Done deleting photos and assets.')
+}
+
+const PROJECT_CODE = 'DARK'
+const PROJECT_ID = '07f88b7f-05db-4af2-a836-77d3be31559e'
+// Example usage: delete all photos for a project
+// deletePhotos(PROJECT_CODE).catch(console.error)
 
 // Example usage: delete all photos for a project
-// deletePhotos('PRJ001').catch(console.error)
-
-// To delete all photos regardless of project, use:
-deletePhotos().catch(console.error)
+deletePhotos({projectId: PROJECT_ID})

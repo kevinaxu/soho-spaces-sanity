@@ -17,12 +17,12 @@
   ],
   "dependencies": {
     "@sanity/client": "^7.9.0",
-    "@sanity/vision": "^4.5.0",
+    "@sanity/vision": "^4.19.0",
     "dotenv": "^17.2.1",
     "nvm": "^0.0.4",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^4.5.0",
+    "sanity": "^4.19.0",
     "styled-components": "^6.1.18",
     "typescript": "^5.9.2"
   },

@@ -23,7 +23,6 @@ async function bulkUpdatePhotos(projectCode) {
     await client
       .patch(photo._id)
       .set({
-        // description: 'Updated description'
         tags: ['residential', 'kitchen'],
       })
       .commit({autoGenerateArrayKeys: true})
