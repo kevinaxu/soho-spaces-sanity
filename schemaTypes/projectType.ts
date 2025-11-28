@@ -2,11 +2,11 @@ import {defineField, defineType} from 'sanity'
 
 const GROUPS = {
   METADATA: {name: 'meta', title: 'Project Metadata'},
-  OVERVIEW: {name: 'overview', title: 'Project Overview'},
+  OVERVIEW: {name: 'overview', title: 'Overview'},
   HERO: {name: 'hero', title: 'Hero Horizontal Gallery'},
   BEFORE_AND_AFTER: {name: 'before_after', title: 'Before & After'},
-  HOTSPOT: {name: 'hotspot', title: 'Hotspot Section'},
-  CONTACT: {name: 'contact', title: 'CTA Section'},
+  HOTSPOT: {name: 'hotspot', title: 'Hotspot'},
+  CONTACT: {name: 'contact', title: 'CTA'},
 }
 
 export const projectType = defineType({
@@ -111,6 +111,8 @@ export const projectType = defineType({
             {
               type: 'object',
               fields: [
+                // TODO: remove the title!
+                // we can grab the photo title from the referenced photo
                 defineField({
                   name: 'title',
                   type: 'string',
@@ -239,8 +241,8 @@ export const projectType = defineType({
 
     // CTA
     defineField({
-      name: 'contactSection',
-      title: 'Contact Section',
+      name: 'contact',
+      title: 'Contact',
       type: 'object',
       group: GROUPS.CONTACT.name,
       fields: [
