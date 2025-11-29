@@ -47,96 +47,67 @@ export const aboutType = defineType({
     defineField({
       name: 'timeline',
       title: 'Timeline',
-      type: 'array',
+      type: 'object', // changed from array to object
       group: GROUPS.TIMELINE.name,
-      of: [
-        {
-          type: 'object',
-          name: 'timelineStep',
-          title: 'Timeline Step',
-          fields: [
-            defineField({
-              name: 'title',
-              type: 'string',
-              title: 'Title',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'icon',
-              type: 'string',
-              title: 'Icon Name',
-              description: 'Provide the MUI icon name (e.g., "Groups", "Construction")',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'reference',
-              to: [{type: 'photo'}],
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'description',
-              type: 'text',
-              title: 'Description',
-              validation: (rule) => rule.required(),
-            }),
-          ],
-          preview: {
-            select: {
-              title: 'title',
-              media: 'image.image',
+      fields: [
+        defineField({
+          name: 'title',
+          type: 'string',
+          title: 'Title',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'description',
+          type: 'text',
+          title: 'Description',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'steps', // your previous array of timelineStep
+          title: 'Steps',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'timelineStep',
+              title: 'Timeline Step',
+              fields: [
+                defineField({
+                  name: 'title',
+                  type: 'string',
+                  title: 'Step Title',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'icon',
+                  type: 'string',
+                  title: 'Icon Name',
+                  description: 'Provide the MUI icon name (e.g., "Groups", "Construction")',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'image',
+                  title: 'Image',
+                  type: 'reference',
+                  to: [{type: 'photo'}],
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'description',
+                  type: 'text',
+                  title: 'Step Description',
+                  validation: (rule) => rule.required(),
+                }),
+              ],
+              preview: {
+                select: {
+                  title: 'title',
+                  media: 'image.image',
+                },
+              },
             },
-          },
-        },
-      ],
-    }),
-
-    // Team
-    defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'array',
-      group: GROUPS.TEAM.name,
-      of: [
-        {
-          type: 'object',
-          name: 'teamMember',
-          title: 'Team Member',
-          fields: [
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'reference',
-              to: [{type: 'photo'}],
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'name',
-              type: 'string',
-              title: 'Name',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'title',
-              type: 'string',
-              title: 'Title',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'content',
-              type: 'text',
-              title: 'Bio',
-              validation: (rule) => rule.required(),
-            }),
           ],
-          preview: {
-            select: {
-              title: 'name',
-              media: 'image.image',
-            },
-          },
-        },
+        }),
       ],
     }),
 
@@ -144,40 +115,124 @@ export const aboutType = defineType({
     defineField({
       name: 'travel',
       title: 'Travel',
-      type: 'array',
+      type: 'object',
       group: GROUPS.TRAVEL.name,
-      of: [
-        {
-          type: 'object',
-          name: 'travelItem',
-          title: 'Travel Item',
-          fields: [
-            defineField({
-              name: 'image',
-              title: 'Image',
-              type: 'reference',
-              to: [{type: 'photo'}],
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'title',
-              type: 'string',
-              title: 'Title',
-              validation: (rule) => rule.required(),
-            }),
-            defineField({
-              name: 'subtitle',
-              type: 'string',
-              title: 'Subtitle',
-            }),
-          ],
-          preview: {
-            select: {
-              title: 'title',
-              media: 'image.image',
+      fields: [
+        defineField({
+          name: 'title',
+          type: 'string',
+          title: 'Title',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'description',
+          type: 'text',
+          title: 'Description',
+        }),
+        defineField({
+          name: 'items',
+          title: 'Travel Items',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'travelItem',
+              title: 'Travel Item',
+              fields: [
+                defineField({
+                  name: 'image',
+                  title: 'Image',
+                  type: 'reference',
+                  to: [{type: 'photo'}],
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'title',
+                  type: 'string',
+                  title: 'Title',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'subtitle',
+                  type: 'string',
+                  title: 'Subtitle',
+                }),
+              ],
+              preview: {
+                select: {
+                  title: 'title',
+                  media: 'image.image',
+                },
+              },
             },
-          },
-        },
+          ],
+        }),
+      ],
+    }),
+
+    // Team
+    defineField({
+      name: 'team',
+      title: 'Team',
+      type: 'object',
+      group: GROUPS.TEAM.name,
+      fields: [
+        defineField({
+          name: 'title',
+          type: 'string',
+          title: 'Title',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'description',
+          type: 'text',
+          title: 'Description',
+        }),
+        defineField({
+          name: 'members',
+          title: 'Team Members',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'teamMember',
+              title: 'Team Member',
+              fields: [
+                defineField({
+                  name: 'image',
+                  title: 'Image',
+                  type: 'reference',
+                  to: [{type: 'photo'}],
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'name',
+                  type: 'string',
+                  title: 'Name',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'title',
+                  type: 'string',
+                  title: 'Title',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'content',
+                  type: 'text',
+                  title: 'Bio',
+                  validation: (rule) => rule.required(),
+                }),
+              ],
+              preview: {
+                select: {
+                  title: 'name',
+                  media: 'image.image',
+                },
+              },
+            },
+          ],
+        }),
       ],
     }),
   ],
