@@ -9,6 +9,7 @@ const GROUPS = {
   EXPLORE: {name: 'explore', title: 'Explore'},
   CONTACT: {name: 'contact', title: 'CTA'},
 }
+
 export const homeType = defineType({
   name: 'home',
   title: 'Home',
@@ -24,8 +25,8 @@ export const homeType = defineType({
       group: GROUPS.HERO.name,
       fields: [
         defineField({
-          name: 'src',
-          title: 'Video Source',
+          name: 'video',
+          title: 'Video File',
           type: 'file',
           options: {
             accept: 'video/mp4,video/webm,video/ogg',
@@ -33,6 +34,9 @@ export const homeType = defineType({
           validation: (rule) => rule.required(),
         }),
       ],
+      preview: {
+        select: {media: 'video'},
+      },
     }),
 
     // Design philosophy
@@ -57,7 +61,7 @@ export const homeType = defineType({
       ],
     }),
 
-    // Services section
+    // Services
     defineField({
       name: 'services',
       title: 'Services',
@@ -110,7 +114,7 @@ export const homeType = defineType({
       ],
     }),
 
-    // Featured project section
+    // Featured project
     defineField({
       name: 'featuredProject',
       title: 'Featured Project',
@@ -129,6 +133,7 @@ export const homeType = defineType({
           title: 'Description',
           validation: (rule) => rule.required(),
         }),
+
         defineField({
           name: 'images',
           title: 'Images',
@@ -140,7 +145,7 @@ export const homeType = defineType({
               title: 'Image Item',
               fields: [
                 defineField({
-                  name: 'src',
+                  name: 'image',
                   title: 'Photo',
                   type: 'reference',
                   to: [{type: 'photo'}],
@@ -157,20 +162,26 @@ export const homeType = defineType({
                   title: 'Subtitle',
                 }),
               ],
+              preview: {
+                select: {
+                  title: 'image.title',
+                  media: 'image.image',
+                },
+              },
             }),
           ],
         }),
       ],
     }),
 
-    // Testimonials section
+    // Testimonials
     defineField({
       name: 'testimonials',
       title: 'Testimonials',
       group: GROUPS.TESTIMONIALS.name,
       type: 'array',
       of: [
-        {
+        defineField({
           type: 'object',
           name: 'testimonial',
           title: 'Testimonial',
@@ -178,7 +189,7 @@ export const homeType = defineType({
             defineField({
               name: 'quote',
               type: 'text',
-              title: 'Quotee',
+              title: 'Quote',
               validation: (rule) => rule.required(),
             }),
             defineField({
@@ -193,42 +204,51 @@ export const homeType = defineType({
               title: 'Job Title',
             }),
           ],
-        },
+          preview: {
+            select: {
+              title: 'author',
+              subtitle: 'title',
+            },
+          },
+        }),
       ],
     }),
 
-    // Explore Section
+    // Explore section
     defineField({
       name: 'explore',
       title: 'Explore',
       type: 'object',
       group: GROUPS.EXPLORE.name,
       fields: [
-        {name: 'title', type: 'string'},
-        {
-          name: 'description',
-          type: 'string',
-        },
+        defineField({name: 'title', type: 'string'}),
+        defineField({name: 'description', type: 'string'}),
         defineField({
           name: 'images',
           title: 'Images',
           description: 'Use 9 images (3x3 desktop, 2x4 mobile)',
           type: 'array',
           of: [
-            {
+            defineField({
               type: 'object',
+              name: 'exploreImage',
+              title: 'Explore Image',
               fields: [
                 defineField({
-                  name: 'photo',
+                  name: 'image',
                   title: 'Photo',
                   type: 'reference',
                   to: [{type: 'photo'}],
                   validation: (rule) => rule.required(),
                 }),
-                // defineField({name: 'flex', type: 'number'}),
               ],
-              preview: {select: {title: 'title', media: 'photo.image'}},
-            },
+              preview: {
+                select: {
+                  title: 'image.title',
+                  media: 'image.image',
+                },
+              },
+            }),
           ],
         }),
       ],
@@ -241,28 +261,27 @@ export const homeType = defineType({
       type: 'object',
       group: GROUPS.CONTACT.name,
       fields: [
-        {name: 'title', type: 'string'},
-        {name: 'cta', type: 'string'},
-        {
-          name: 'src',
+        defineField({name: 'title', type: 'string'}),
+        defineField({name: 'cta', type: 'string'}),
+        defineField({
+          name: 'image',
           title: 'Image',
           type: 'reference',
           to: [{type: 'photo'}],
-          description: 'Select a photo to use in the contact section',
-        },
+        }),
       ],
       preview: {
         select: {
           title: 'title',
-          media: 'src.image',
+          media: 'image.image',
         },
       },
     }),
   ],
+
   preview: {
-    select: {
-      title: 'home',
-      media: 'aboutImage',
+    prepare() {
+      return {title: 'Home Page'}
     },
   },
 })
