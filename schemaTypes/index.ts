@@ -1,6 +1,7 @@
-import {projectType} from './projectType'
-import {photoType} from './photoType'
-import {aboutType} from './aboutType'
-import {homeType} from './homeType'
+import {projectType} from './project'
+import {photoType} from './photo'
+import {aboutType} from './about'
+import {homeType} from './home'
+import {portfolioType} from './portfolio'
 
-export const schemaTypes = [aboutType, projectType, photoType, homeType]
+export const schemaTypes = [aboutType, portfolioType, projectType, photoType, homeType]

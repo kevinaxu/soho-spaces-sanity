@@ -44,5 +44,8 @@ export const photoType = defineType({
       description: 'Labels used for search / filtering',
       of: [{type: 'string'}],
     }),
+
+    // add field for priority
+    // add field for hiding from explore page
   ],
 })
