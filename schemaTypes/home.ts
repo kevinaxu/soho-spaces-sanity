@@ -56,7 +56,6 @@ export const homeType = defineType({
           name: 'subtitle',
           type: 'string',
           title: 'Subtitle',
-          validation: (rule) => rule.required(),
         }),
       ],
     }),
