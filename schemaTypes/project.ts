@@ -18,6 +18,19 @@ export const projectType = defineType({
   fields: [
     // Project Metadata
     defineField({
+      name: 'title',
+      type: 'string',
+      validation: (rule) => rule.required(),
+      description: 'The title of the project (used for display and <metadata>)',
+      group: GROUPS.METADATA.name,
+    }),
+    defineField({
+      name: 'description',
+      type: 'string',
+      description: 'The description of the project (used for SEO and <metadata>)',
+      group: GROUPS.METADATA.name,
+    }),
+    defineField({
       name: 'slug',
       title: 'Project Slug',
       description: 'This is used as the URL of the project',
@@ -70,13 +83,7 @@ export const projectType = defineType({
 
     // Overview section
     defineField({
-      name: 'title',
-      type: 'string',
-      validation: (rule) => rule.required(),
-      group: GROUPS.OVERVIEW.name,
-    }),
-    defineField({
-      name: 'description',
+      name: 'intro',
       type: 'text',
       group: GROUPS.OVERVIEW.name,
     }),
@@ -84,7 +91,6 @@ export const projectType = defineType({
       name: 'details',
       type: 'array',
       group: GROUPS.OVERVIEW.name,
-
       of: [
         {
           type: 'object',

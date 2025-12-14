@@ -11,12 +11,6 @@ export const photoType = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'projectCode',
-      title: 'Project Code',
-      description: 'Project code associated with this photo',
-      type: 'string',
-    }),
-    defineField({
       name: 'project',
       title: 'Project',
       type: 'reference',
@@ -45,7 +39,29 @@ export const photoType = defineType({
       of: [{type: 'string'}],
     }),
 
-    // add field for priority
-    // add field for hiding from explore page
+    defineField({
+      name: 'priority',
+      title: 'Priority',
+      type: 'number',
+      initialValue: 3,
+      options: {
+        list: [
+          {title: '1', value: 1},
+          {title: '2', value: 2},
+          {title: '3', value: 3},
+          {title: '4', value: 4},
+          {title: '5', value: 5},
+        ],
+        layout: 'dropdown',
+      },
+      description: 'Priority for ordering (1 = highest, 5 = lowest)',
+    }),
+    defineField({
+      name: 'isHidden',
+      title: 'Hide From Explore',
+      type: 'boolean',
+      initialValue: false,
+      description: 'If true, this photo will not appear on the Explore page.',
+    }),
   ],
 })

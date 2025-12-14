@@ -25,17 +25,33 @@ export const homeType = defineType({
       group: GROUPS.HERO.name,
       fields: [
         defineField({
+          name: 'image',
+          title: 'Image',
+          type: 'reference',
+          to: [{type: 'photo'}],
+          description: 'Image to use on desktkop (vertical, square)',
+          validation: (rule) => rule.required(),
+        }),
+        defineField({
+          name: 'imageMobile',
+          title: 'Image (Mobile)',
+          type: 'reference',
+          to: [{type: 'photo'}],
+          description: 'Image to use on mobile (square)',
+        }),
+        defineField({
           name: 'video',
           title: 'Video File',
           type: 'file',
           options: {
             accept: 'video/mp4,video/webm,video/ogg',
           },
-          validation: (rule) => rule.required(),
         }),
       ],
       preview: {
-        select: {media: 'video'},
+        select: {
+          media: 'image.image',
+        },
       },
     }),
 
@@ -51,11 +67,6 @@ export const homeType = defineType({
           type: 'string',
           title: 'Title',
           validation: (rule) => rule.required(),
-        }),
-        defineField({
-          name: 'subtitle',
-          type: 'string',
-          title: 'Subtitle',
         }),
       ],
     }),
@@ -132,42 +143,53 @@ export const homeType = defineType({
           title: 'Description',
           validation: (rule) => rule.required(),
         }),
-
         defineField({
-          name: 'images',
-          title: 'Images',
+          name: 'projects',
+          title: 'Projects',
           type: 'array',
           of: [
-            defineField({
+            {
               type: 'object',
-              name: 'imageItem',
-              title: 'Image Item',
+              name: 'projectItem',
+              title: 'Project Item',
               fields: [
-                defineField({
-                  name: 'image',
-                  title: 'Photo',
-                  type: 'reference',
-                  to: [{type: 'photo'}],
-                  validation: (rule) => rule.required(),
-                }),
                 defineField({
                   name: 'title',
                   type: 'string',
                   title: 'Title',
+                  validation: (rule) => rule.required(),
                 }),
                 defineField({
-                  name: 'subtitle',
-                  type: 'string',
-                  title: 'Subtitle',
+                  name: 'image',
+                  title: 'Image',
+                  type: 'reference',
+                  to: [{type: 'photo'}],
+                  description: 'Image to use on desktkop (vertical, square)',
+                  validation: (rule) => rule.required(),
+                }),
+                defineField({
+                  name: 'imageMobile',
+                  title: 'Image (Mobile)',
+                  type: 'reference',
+                  to: [{type: 'photo'}],
+                  description: 'Image to use on mobile (square)',
+                }),
+                defineField({
+                  name: 'project',
+                  title: 'Project',
+                  type: 'reference',
+                  to: [{type: 'project'}],
+                  description: 'Will be used to fetch project title, slug, status',
+                  validation: (rule) => rule.required(),
                 }),
               ],
               preview: {
                 select: {
-                  title: 'image.title',
+                  title: 'title',
                   media: 'image.image',
                 },
               },
-            }),
+            },
           ],
         }),
       ],
