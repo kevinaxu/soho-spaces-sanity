@@ -117,12 +117,6 @@ export const projectType = defineType({
             {
               type: 'object',
               fields: [
-                // TODO: remove the title!
-                // we can grab the photo title from the referenced photo
-                defineField({
-                  name: 'title',
-                  type: 'string',
-                }),
                 defineField({
                   name: 'photo',
                   title: 'Photo',
@@ -132,7 +126,7 @@ export const projectType = defineType({
                 }),
               ],
               preview: {
-                select: {title: 'title', media: 'photo.image'},
+                select: {title: 'photo.title', media: 'photo.image'},
               },
             },
           ],
@@ -195,6 +189,7 @@ export const projectType = defineType({
     defineField({
       name: 'hotspot',
       title: 'Hotspot',
+      description: 'Optional: the section will only display if hotspots are added',
       type: 'object',
       group: GROUPS.HOTSPOT.name,
       fields: [
@@ -249,6 +244,7 @@ export const projectType = defineType({
     defineField({
       name: 'contact',
       title: 'Contact',
+      description: 'Optional: currently uses whatever is set on Home page CTA section',
       type: 'object',
       group: GROUPS.CONTACT.name,
       fields: [
