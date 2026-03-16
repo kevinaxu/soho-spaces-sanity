@@ -17,7 +17,7 @@ export const homeType = defineType({
   groups: Object.values(GROUPS),
 
   fields: [
-    // Hero Video
+    // Hero Images
     defineField({
       name: 'hero',
       title: 'Hero',
@@ -25,32 +25,57 @@ export const homeType = defineType({
       group: GROUPS.HERO.name,
       fields: [
         defineField({
-          name: 'image',
-          title: 'Image',
-          type: 'reference',
-          to: [{type: 'photo'}],
-          description: 'Image to use on desktkop (vertical, square)',
-          validation: (rule) => rule.required(),
+          name: 'images',
+          title: 'Images',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'photo',
+                  title: 'Photo',
+                  type: 'reference',
+                  description: 'Image to use on desktkop (landscape, square)',
+                  to: [{type: 'photo'}],
+                  validation: (rule) => rule.required(),
+                }),
+              ],
+              preview: {
+                select: {title: 'photo.title', media: 'photo.image'},
+              },
+            },
+          ],
+          validation: (rule) => rule.unique().error('Each photo must be unique'),
         }),
         defineField({
-          name: 'imageMobile',
-          title: 'Image (Mobile)',
-          type: 'reference',
-          to: [{type: 'photo'}],
-          description: 'Image to use on mobile (square)',
-        }),
-        defineField({
-          name: 'video',
-          title: 'Video File',
-          type: 'file',
-          options: {
-            accept: 'video/mp4,video/webm,video/ogg',
-          },
+          name: 'imagesMobile',
+          title: 'Images (Mobile)',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'photo',
+                  title: 'Photo',
+                  type: 'reference',
+                  description: 'Image to use on mobile (portrait, square)',
+                  to: [{type: 'photo'}],
+                  validation: (rule) => rule.required(),
+                }),
+              ],
+              preview: {
+                select: {title: 'photo.title', media: 'photo.image'},
+              },
+            },
+          ],
+          validation: (rule) => rule.unique().error('Each photo must be unique'),
         }),
       ],
       preview: {
         select: {
-          media: 'image.image',
+          media: 'images.0.photo.image',
         },
       },
     }),
